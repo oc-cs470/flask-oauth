@@ -4,9 +4,9 @@ from flask_oauth import OAuth
 
 # You must configure these 3 values from Google APIs console
 # https://code.google.com/apis/console
-GOOGLE_CLIENT_ID = '<Client-ID>'
-GOOGLE_CLIENT_SECRET = '<Client-secret>'
-REDIRECT_URI = '/authorized'  # one of the Redirect URIs from Google APIs console
+GOOGLE_CLIENT_ID = '87105594236.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = 'BCoPUB2xKfKm6QIaw2ZPdyvV'
+REDIRECT_URI = '/oauth2callback'  # one of the Redirect URIs from Google APIs console
 
 SECRET_KEY = 'development key'
 DEBUG = True
@@ -20,7 +20,7 @@ google = oauth.remote_app('google',
                           base_url='https://www.google.com/accounts/',
                           authorize_url='https://accounts.google.com/o/oauth2/auth',
                           request_token_url=None,
-                          request_token_params={'scope': 'https://www.googleapis.com/auth/userinfo.email',
+                          request_token_params={'scope': 'https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/userinfo.profile',
                                                 'response_type': 'code'},
                           access_token_url='https://accounts.google.com/o/oauth2/token',
                           access_token_method='POST',
