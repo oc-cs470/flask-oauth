@@ -9,8 +9,8 @@ from sqlalchemy.ext.declarative import declarative_base
 DATABASE_URI = 'sqlite:////tmp/flask-oauth.db'
 SECRET_KEY = 'development key'
 DEBUG = True
-TWITTER_APP_ID = 'xBeXxg9lyElUgwZT6AZ0A'
-TWITTER_APP_SECRET = 'aawnSpNTOVuDCjx7HMh6uSXetjNN8zWLpZwCEU4LBrk'
+TWITTER_APP_ID = 'kvawiUvS0oOdBGEyIRSJw'
+TWITTER_APP_SECRET = 'FDrET7Clj5ElNb9XmS0FAjllPWe4VVyJv8sDl0fK1U'
 
 # setup flask
 app = Flask(__name__)
