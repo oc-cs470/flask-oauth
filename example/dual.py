@@ -90,8 +90,10 @@ def userinfo(access_token=None):
     elif method == 'facebook':
         # Site specific stuff for facebook user info
         me = facebook.get('/me')
+        picurl = '<p><img src=https://graph.facebook.com/{}/picture /></p>'.format(me.data['id'])
 
-        return '\n'.join(['<p><b>%s</b>: %s</p>' % d for d in me.data.items()])
+        info = '\n'.join(['<p><b>%s</b>: %s</p>' % d for d in me.data.items()])
+        return picurl + info
     else:
         return redirect(url_for('invalid'))
 
