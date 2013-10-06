@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block content %}
+        <p>Log in with:</p>
+        <ul>
+{% for method in methods %}
+            <li><a href="/login/{{ method }}">{{ method|title }}</a></li>
+{% endfor %}
+        </ul>
+
+        <p><a href="/reset">Reset</a> all sessions.</p>
+{% endblock %}
+
