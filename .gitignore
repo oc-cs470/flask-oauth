@@ -36,4 +36,7 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
->>>>>>> 7fd6d07faadee2520b19bd2dfd5ba9553bdbb762
+
+# Editor files
+*.swp
+
