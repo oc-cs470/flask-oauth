@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, session, request
+from flask import Flask, redirect, url_for, session, request, render_template
 from flask_oauth import OAuth
 
 
@@ -15,17 +15,6 @@ SECRET_KEY = 'development key'
 DEBUG = True
 
 # Some simple pages for example usage
-HOME_PAGE = """<p>Log in with:</p>
-<ul>
-    <li><a href="/login/facebook">Facebook</a></li>
-    <li><a href="/login/google">Google</a></li>
-</ul>
-
-<p><a href="/reset">Reset</a> all sessions.</p>"""
-
-RESET_PAGE = """<p>All sessions reset.</p>
-<a href="/">Home</a>"""
-
 INVALID_PAGE = """<h1>Invalid page</h1>"""
 
 # Create Flask App and OAuth object
@@ -61,7 +50,7 @@ google = oauth.remote_app('google',
 
 @app.route('/')
 def index():
-    return HOME_PAGE
+    return render_template('dual.html', methods=METHODS)
 
 
 @app.route('/userinfo')
@@ -177,7 +166,7 @@ def invalid():
 def reset():
     session['google_access_token'] = None
     session['facebook_access_token'] = None
-    return RESET_PAGE
+    return render_template('reset.html')
 
 
 if __name__ == '__main__':
