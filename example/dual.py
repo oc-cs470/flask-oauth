@@ -1,5 +1,6 @@
-from flask import Flask, redirect, url_for, session, request
+from flask import Flask, redirect, url_for, session, request, render_template
 from flask_oauth import OAuth
+from flask.ext.mail import Mail, Message
 
 
 # You must configure these 3 values from Google APIs console
@@ -15,23 +16,25 @@ SECRET_KEY = 'development key'
 DEBUG = True
 
 # Some simple pages for example usage
-HOME_PAGE = """<p>Log in with:</p>
-<ul>
-    <li><a href="/login/facebook">Facebook</a></li>
-    <li><a href="/login/google">Google</a></li>
-</ul>
-
-<p><a href="/reset">Reset</a> all sessions.</p>"""
-
 RESET_PAGE = """<p>All sessions reset.</p>
 <a href="/">Home</a>"""
 
 INVALID_PAGE = """<h1>Invalid page</h1>"""
 
 # Create Flask App and OAuth object
-app = Flask(__name__)
+class DualFlask(Flask):
+    jinja_options = dict(Flask.jinja_options, trim_blocks=True)
+
+app = DualFlask(__name__)
 app.debug = DEBUG
 app.secret_key = SECRET_KEY
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_USERNAME'] = 'marcus.darden@cs.olivetcollege.edu'
+app.config['MAIL_PASSWORD'] = 'Bingle'
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_DEFAULT_SENDER'] = 'marcus.darden@cs.olivetcollege.edu'
+mail = Mail(app)
 oauth = OAuth()
 method = None
 
@@ -59,9 +62,17 @@ google = oauth.remote_app('google',
                           consumer_secret=GOOGLE_CLIENT_SECRET)
 
 
+@app.route('/email')
+def email():
+    message = Message('Testing 1, 2, 3...')
+    message.add_recipient('marcus.darden@cs.olivetcollege.edu')
+    mail.send(message)
+    return 'email sent!'
+
+
 @app.route('/')
 def index():
-    return HOME_PAGE
+    return render_template('dual.html', methods=METHODS)
 
 
 @app.route('/userinfo')
