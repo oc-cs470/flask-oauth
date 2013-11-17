@@ -40,3 +40,4 @@ nosetests.xml
 # Editor files
 *.swp
 
+*.swo
