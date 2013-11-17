@@ -120,7 +120,18 @@ def userinfo(access_token=None):
 @app.route('/update_user', methods=['POST'])
 def update_user():
     # Update the database
-    print 'Updating user...', str(locals())
+    # Form response is a dictionary of key/value pairs
+    #    The keys are the name of the appropriate field
+    #    The values are the information entered by the user
+
+    # Get individual values
+    first_name = response.form['first_name']
+    last_name = reaponse.form['last_name']
+    print first_name, last_name
+
+    # Get all the form values
+    items = request.form.items()
+    print 'Updating user...', str(items)
     return redirect(url_for('index'))
 
 
