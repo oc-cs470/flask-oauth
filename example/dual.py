@@ -16,9 +16,6 @@ SECRET_KEY = 'development key'
 DEBUG = True
 
 # Some simple pages for example usage
-RESET_PAGE = """<p>All sessions reset.</p>
-<a href="/">Home</a>"""
-
 INVALID_PAGE = """<h1>Invalid page</h1>"""
 
 # Create Flask App and OAuth object
@@ -97,16 +94,34 @@ def userinfo(access_token=None):
         import json  # Google request returns a JSON object
         me_data = json.load(res)
 
-        return '\n'.join(['<p><b>%s</b>: %s</p>' % d for d in me_data.items()])
+        #print '\n'.join(['<p><b>%s</b>: %s</p>' % d for d in me_data.items()])
+        return render_template('form.html',
+                               first_name=me_data['given_name'],
+                               email=me_data['email'],
+                               last_name=me_data['family_name']
+                               )
     elif method == 'facebook':
         # Site specific stuff for facebook user info
         me = facebook.get('/me')
         picurl = '<p><img src=https://graph.facebook.com/{}/picture /></p>'.format(me.data['id'])
 
         info = '\n'.join(['<p><b>%s</b>: %s</p>' % d for d in me.data.items()])
-        return picurl + info
+        #print picurl + info
+        return render_template('form.html',
+                               first_name=me.data['first_name'],
+                               last_name=me.data['last_name'],
+                               email=me.data['email'],
+                               username=me.data['username'],
+                               )
     else:
         return redirect(url_for('invalid'))
+
+
+@app.route('/update_user', methods=['POST'])
+def update_user():
+    # Update the database
+    print 'Updating user...', str(locals())
+    return redirect(url_for('index'))
 
 
 @app.route('/login/<auth_method>')
@@ -188,7 +203,7 @@ def invalid():
 def reset():
     session['google_access_token'] = None
     session['facebook_access_token'] = None
-    return RESET_PAGE
+    return render_template('reset.html')
 
 
 if __name__ == '__main__':
